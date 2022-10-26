@@ -37,16 +37,29 @@ export default function App() {
       serialize: false,
     });
     return preloadAssets();
-  };
-  if (loading) {
-    return (
-      <AppLoading
-        startAsync={preload}
-        onError={console.warn}
-        onFinish={onFinish}
-      />
-    );
-  }
+
+    // const persistor = new CachePersistor({
+    //   cache,
+    //   storage: new AsyncStorageWrapper(AsyncStorage),
+    //   });
+    // await persistor.restore(); 
+
+    };
+
+
+
+
+    if (loading) {
+      return (
+        <AppLoading
+          startAsync={preload}
+          onError={console.warn}
+          onFinish={onFinish}
+        />
+      );
+    }
+
+
   return (
     <ApolloProvider client={client}>
       <NavigationContainer>

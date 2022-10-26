@@ -3,8 +3,9 @@ import { gql, useMutation } from "@apollo/client";
 import { useForm } from "react-hook-form";
 import AuthButton from "../components/auth/AuthButton";
 import AuthLayout from "../components/auth/AuthLayout";
-import { TextInput } from "../components/auth/AuthShared";
-
+// import { TextInput } from "../components/auth/AuthShared";
+import { TextInput } from 'react-native-paper';
+import {StyleSheet} from 'react-native';
 const CREATE_ACCOUNT_MUTATION = gql`
     mutation createAccount(
         $user_id: String!
@@ -29,7 +30,15 @@ const CREATE_ACCOUNT_MUTATION = gql`
         }
     }
 `;
-
+const styles = StyleSheet.create({
+    input: {
+      height: 28,
+      margin: 5,
+      marginLeft: 15,
+      marginRight: 15,
+      padding: 8,
+    },
+});
 export default function CreateAccount({ navigation }) {
     const { register, handleSubmit, setValue, getValues } = useForm();
     const onCompleted = (data) => {
@@ -37,7 +46,7 @@ export default function CreateAccount({ navigation }) {
         } = data;
         const { user_id, user_pw } = getValues();
         if (ok) {
-            navigation.navigate("LogIn", {
+            navigation.navigate("CreatePet", {
                 user_id,
                 user_pw
             })
@@ -92,14 +101,14 @@ export default function CreateAccount({ navigation }) {
     }, [register])
     return (
         <AuthLayout>
-            <TextInput autoFocus placeholder="아이디" returnKeyType="next" onSubmitEditing={() => onNext(passwordRef)} onChangeText={(text) => setValue("user_id", text)} />
-            <TextInput ref={passwordRef} placeholder="패스워드" returnKeyType="next" secureTextEntry onSubmitEditing={() => onNext(nameRef)} onChangeText={(text) => setValue("user_pw", text)} />
-            <TextInput ref={nameRef} placeholder="이름" autoCapitalize={"none"} returnKeyType="next" onSubmitEditing={() => onNext(phoneRef)} onChangeText={(text) => setValue("user_name", text)} />
-            <TextInput ref={birthRef} placeholder="생년월일" returnKeyType="next" keyboardType="number-pad" onSubmitEditing={() => onNext(addressRef)} onChangeText={(text) => setValue("user_birth", text)} />
-            <TextInput ref={sexRef} placeholder="성별" returnKeyType="next" onSubmitEditing={() => onNext(birthRef)} onChangeText={(text) => setValue("user_gender", text)} />
-            <TextInput ref={phoneRef} placeholder="전화번호" returnKeyType="next" keyboardType="number-pad" onSubmitEditing={() => onNext(sexRef)} onChangeText={(text) => setValue("user_phone", text)} />
-            <TextInput ref={addressRef} placeholder="주소" returnKeyType="done" onSubmitEditing={handleSubmit(onValid)} onChangeText={(text) => setValue("user_address", text)} />
-            <AuthButton text="회원가입" disabled={false} onPress={() => null} />
+            <TextInput style={styles.input} theme={{ roundness: 25  }} mode="outlined" placeholderTextColor="rgba(0,0,0,3.0)" autoFocus placeholder="아이디" returnKeyType="next" onSubmitEditing={() => onNext(passwordRef)} onChangeText={(text) => setValue("user_id", text)} />
+            <TextInput style={styles.input} theme={{ roundness: 25  }} mode="outlined" placeholderTextColor="rgba(0,0,0,3.0)" ref={passwordRef} placeholder="패스워드" returnKeyType="next" secureTextEntry onSubmitEditing={() => onNext(nameRef)} onChangeText={(text) => setValue("user_pw", text)} />
+            <TextInput style={styles.input} theme={{ roundness: 25  }} mode="outlined" placeholderTextColor="rgba(0,0,0,3.0)" ref={nameRef} placeholder="닉네임" autoCapitalize={"none"} returnKeyType="next" onSubmitEditing={() => onNext(phoneRef)} onChangeText={(text) => setValue("user_name", text)} />
+            <TextInput style={styles.input} theme={{ roundness: 25  }} mode="outlined" placeholderTextColor="rgba(0,0,0,3.0)" ref={birthRef} placeholder="생년월일: 예) 970307" returnKeyType="next" keyboardType="number-pad" onSubmitEditing={() => onNext(addressRef)} onChangeText={(text) => setValue("user_birth", text)} />
+            <TextInput style={styles.input} theme={{ roundness: 25  }} mode="outlined" placeholderTextColor="rgba(0,0,0,3.0)" ref={sexRef} placeholder="성별: 예) 남, 여" returnKeyType="next" onSubmitEditing={() => onNext(birthRef)} onChangeText={(text) => setValue("user_gender", text)} />
+            <TextInput style={styles.input} theme={{ roundness: 25  }} mode="outlined" placeholderTextColor="rgba(0,0,0,3.0)" ref={phoneRef} placeholder="전화번호: 예) 01012346789" returnKeyType="next" keyboardType="number-pad" onSubmitEditing={() => onNext(sexRef)} onChangeText={(text) => setValue("user_phone", text)} />
+            <TextInput style={styles.input} theme={{ roundness: 25  }} mode="outlined" placeholderTextColor="rgba(0,0,0,3.0)" ref={addressRef} placeholder="주소: 예) 충주시 모시래2길 00-00" returnKeyType="done" onSubmitEditing={handleSubmit(onValid)} onChangeText={(text) => setValue("user_address", text)} />
+            <AuthButton text="다음" disabled={false} onPress={handleSubmit(onValid)} />
         </AuthLayout>
     );
 }

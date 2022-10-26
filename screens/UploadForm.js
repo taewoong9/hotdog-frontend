@@ -86,7 +86,7 @@ export default function UploadForm({ route, navigation }) {
       const post_images = new ReactNativeFile({
         uri: route.params.post_images,
         name: `1.jpg`,
-        type: 'images/jpeg',
+        type: 'images/jpg',
       });
       console.log(post_images);
       uploadPostMutation({
@@ -103,7 +103,7 @@ export default function UploadForm({ route, navigation }) {
           <CaptionContainer>
             <Caption
               returnKeyType="done"
-              placeholder="Write a post_content..."
+              placeholder="문구를 입력하세요..."
               placeholderTextColor="rgba(0, 0, 0, 0.5)"
               onSubmitEditing={handleSubmit(onValid)}
               onChangeText={(text) => setValue("post_content", text)}

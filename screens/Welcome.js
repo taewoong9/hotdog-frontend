@@ -3,6 +3,9 @@ import { TouchableOpacity } from "react-native-gesture-handler";
 import styled from "styled-components/native";
 import AuthButton from "../components/auth/AuthButton";
 import AuthLayout from "../components/auth/AuthLayout";
+import { StatusBar } from "react-native";
+
+StatusBar.setBarStyle('dark-content');
 
 const Container = styled.View`
     flex: 1;
@@ -11,9 +14,9 @@ const Container = styled.View`
 `;
 
 const Logo = styled.Image`
-
-    margin-left:100px;
-    max-width:50%;
+    margin-bottom: 25px;
+    margin-left:50px;
+    max-width:80%;
 `;
 
 const CreateAccount = styled.TouchableOpacity`
@@ -24,10 +27,19 @@ const CreateAccountText = styled.Text`
     font-size:30px;
 `;
 const LogInLink = styled.Text`
-text-align:center;
-    font-weight:600;
-    font-size:20px;
+    text-align:center;
+    font-weight:500;
+    font-size:35px;
     margin-top:50px;
+    margin-bottom:20px;
+    margin-left: 140px;
+    margin-right: 140px;
+    background-color:#ffc477;
+    padding: 9px 5px;
+    border-radius: 6px;
+    border:1px solid #eeb44f;
+    shadowOpacity: 0.35,
+    shadowRadius: 3.5,
 `;
 
 export default function Welcome({navigation}){
@@ -35,11 +47,11 @@ export default function Welcome({navigation}){
     const goToLogIn = () => navigation.navigate("LogIn");
     return(
         <AuthLayout>
-            <Logo resizeMode="contain" source={require("../assets/logo.png")}/>
-            <AuthButton text="회원가입" disabled={false} onPress={goToCreateAccount}/>
+            <Logo resizeMode="contain" source={require("../assets/hotdog.png")}/>
             <TouchableOpacity onPress={goToLogIn}>
             <LogInLink>로그인</LogInLink>
             </TouchableOpacity>
+            <AuthButton text="회원가입" disabled={false} onPress={goToCreateAccount}/>
         </AuthLayout>
         // <Container>
         //     <Logo resizeMode="contain" source={require("../assets/logo.png")}/>

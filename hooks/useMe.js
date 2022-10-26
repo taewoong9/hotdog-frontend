@@ -7,6 +7,7 @@ const ME_QUERY = gql`
     me {
         id
         user_name
+        user_address
     }
   }
 `;

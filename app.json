@@ -7,7 +7,7 @@
     "icon": "./assets/icon.png",
     "userInterfaceStyle": "light",
     "splash": {
-      "image": "./assets/splash.png",
+      "image": "./assets/loading.png",
       "resizeMode": "contain",
       "backgroundColor": "#ffffff"
     },
@@ -24,6 +24,10 @@
       "adaptiveIcon": {
         "foregroundImage": "./assets/adaptive-icon.png",
         "backgroundColor": "#FFFFFF"
+      },
+      "package":"com.LWU.hotdog",
+      "config":{
+        "googleMaps":{"apikey":"AIzaSyAkWOkM_0e0xBFeFOfxShO5DodY8Yi7bjg"}
       }
     },
     "web": {

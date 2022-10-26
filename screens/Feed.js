@@ -8,8 +8,8 @@ import { Ionicons } from "@expo/vector-icons";
 
 
 const FEED_QUERY = gql`
-    query seeFeed {
-        seeFeed {
+    query seeFeed($offset: Int!) {
+        seeFeed(offset: $offset) {
             ...PhotoFragment
             userdb {
                 id
@@ -19,6 +19,8 @@ const FEED_QUERY = gql`
     }
     ${PHOTO_FRAGMENT}
 `;
+
+
 
 export default function Feed({navigation}) {
     const {data, loading,refetch,fetchMore} = useQuery(FEED_QUERY, {

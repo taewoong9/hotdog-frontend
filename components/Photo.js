@@ -5,7 +5,7 @@ import PropTypes from 'prop-types';
 import { useNavigation } from "@react-navigation/native";
 import { useWindowDimensions, Image } from "react-native"; 
 import { TouchableOpacity } from "react-native-gesture-handler";
-import { gql, useMutation } from "@apollo/client";
+import { gql, useMutation, useQuery } from "@apollo/client";
 
 const TOGGLE_LIKE_MUTATION = gql`
   mutation toggleLike($id: Int!) {
@@ -16,13 +16,27 @@ const TOGGLE_LIKE_MUTATION = gql`
   }
 `;
 
+const SEE_PET_PROFILE_QUERY = gql`
+query seePetProfile($user_id: Int!) {
+seePetProfile(user_id: $user_id) {
+  user_id
+  pet_image
+}
+}
+`;
+
 const Container = styled.View``;
 const Header = styled.TouchableOpacity`
     padding: 20px 10px;
     flex-direction: row;
     align-items: center;
 `;
-const UserAvatar = styled.Image``;
+const UserAvatar = styled.Image`
+    margin-right: 10px;
+    width: 40px;
+    height: 40px;
+    border-radius: 20px;
+`;
 const Username = styled.Text`
     font-weight: 600;
 `;
@@ -49,6 +63,11 @@ const ExtraContainer = styled.View`
 `;
 
 function Photo({id, userdb, post_content, post_images, isLiked, post_likes_cnt}){
+    const { data } = useQuery(SEE_PET_PROFILE_QUERY, {
+        variables : {
+            user_id: userdb.id,
+        }
+    }); 
     const navigation = useNavigation();
     const {width, height} = useWindowDimensions();
     const updateToggleLike = (cache, result) => {
@@ -86,14 +105,14 @@ function Photo({id, userdb, post_content, post_images, isLiked, post_likes_cnt})
     );
     const goToProfile = () => {
         navigation.navigate("Profile", {
-            user_nam: userdb.user_name,
+            user_name: userdb.user_name,
             id: userdb.id,
         })
     }
     return (
         <Container>
             <Header onPress={goToProfile}>
-                <UserAvatar />
+                <UserAvatar source={{uri: data?.seePetProfile?.pet_image}}/>
                 <Username>{userdb.user_name}</Username>
             </Header>
             <File
@@ -113,14 +132,16 @@ function Photo({id, userdb, post_content, post_images, isLiked, post_likes_cnt})
                             size={30}
                         />
                     </Action>
-                    <Action onPress={() => navigation.navigate("Comments")}>
+                    <Action onPress={() => navigation.navigate("Comments", {
+                        photoId: id,
+                    })}>
                         <Ionicons name="chatbox-outline" size={30} />
                     </Action>
                 </Actions>
                 <TouchableOpacity onPress={() => navigation.navigate("Likes", {
                     photoId: id,
                 })}>
-                    <Likes>{post_likes_cnt === 1 ? "1 like" : `${post_likes_cnt} likes`}</Likes>
+                    <Likes>{post_likes_cnt === 1 ? "좋아요 1개" : `좋아요 ${post_likes_cnt}개`}</Likes>
                 </TouchableOpacity>
                 <Caption>
                     <TouchableOpacity onPress={goToProfile}>

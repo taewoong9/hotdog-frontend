@@ -13,6 +13,7 @@ const ROOM_UPDATES = gql`
       id 
       content
       userdb {
+        id
         user_name
       }
       read
@@ -41,6 +42,7 @@ const ROOM_QUERY = gql`
         id
         content
         userdb {
+          id
           user_name
         }
         read
@@ -53,6 +55,11 @@ const MessageContainer = styled.View`
   padding: 0px 10px;
   flex-direction: ${(props) => (props.outGoing ? "row-reverse" : "row")};
   align-items: flex-end;
+`;
+const Avatar = styled.Image`
+  height: 20px;
+  width: 20px;
+  border-radius: 25px;
 `;
 const Author = styled.View`
 `;
@@ -75,6 +82,12 @@ const TextInput = styled.TextInput`
 `;
 
 export default function Room({ route, navigation }) {
+  const [refreshing, setRefreshing] = useState(false);
+  const onRefresh = async() => {
+      setRefreshing(true);
+      await refetch();
+      setRefreshing(false);
+  };
   const {data:meData} = useMe();
   const {register, setValue, handleSubmit, getValues, watch} = useForm();
   const updateSendMessage = (cache, result) => {
@@ -86,6 +99,7 @@ export default function Room({ route, navigation }) {
         id,
         content:chatmessagedb,
         userdb: {
+          id: meData.me.id,
           user_name: meData.me.user_name,
         },
         read:true,
@@ -97,6 +111,7 @@ export default function Room({ route, navigation }) {
             id
             content
             userdb {
+              id
               user_name
             }
             read
@@ -108,7 +123,7 @@ export default function Room({ route, navigation }) {
         id: `chatroomdb:${route.params.id}`,
         fields: {
           chatmessagedb(prev){
-            console.log(prev);
+            // console.log(prev);
             return [...prev, messageFragment];
           },
         },
@@ -118,14 +133,15 @@ export default function Room({ route, navigation }) {
   const [sendMessageMutation, {loading:sendingMessage}] = useMutation(SEND_MESSAGE_MUTATION,{
     update: updateSendMessage,
   })
-  const {data, loading, subscribeToMore} = useQuery(ROOM_QUERY, {
+  const {data, loading, subscribeToMore, refetch} = useQuery(ROOM_QUERY, {
     variables: {
       id: route?.params?.id,
     },
   });
+  // console.log(data?.seeRoom?.chatmessagedb)
   const client = useApolloClient();
   const updateQuery = (prevQuery, options) => {
-    console.log(options)
+    // console.log(options)
   };
   const [subscribed, setSubscribed] = useState(false)
   useEffect(() => {
@@ -161,7 +177,7 @@ export default function Room({ route, navigation }) {
   const renderItem = ({item:chatmessagedb}) => (
     <MessageContainer outGoing={chatmessagedb.userdb.user_name !== route?.params?.talkingTo?.user_name}>
       <Author>
-        <Ionicons name="person-circle" size={50}/>
+        <Avatar source={{  }} />
       </Author>
       <Message>{chatmessagedb.content}</Message>
     </MessageContainer>
@@ -171,7 +187,9 @@ export default function Room({ route, navigation }) {
   return (
     <KeyboardAvoidingView style={{flex:1}} behavior="height" keyboardVerticalOffset={50}>
       <ScreenLayout loading={loading}>
-        <FlatList 
+        <FlatList
+          refreshing={refreshing}
+          onRefresh={onRefresh} 
           style={{width:"100%", marginVertical: 10}}
           inverted
           ItemSeparatorComponent={() => <View style={{height:20}}></View>}

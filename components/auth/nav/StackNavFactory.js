@@ -9,6 +9,8 @@ import Me from "../../../screens/Me";
 import Likes from "../../../screens/Likes";
 import Comments from "../../../screens/Comments";
 import SelectPhoto from "../../../screens/SelectPhoto";
+import Room from "../../../screens/Room";
+import Rooms from "../../../screens/Rooms";
 
 const Stack = createStackNavigator();
 
@@ -16,9 +18,21 @@ export default function StackNavFactory({screenName}){
     return (
         <Stack.Navigator
             screenOptions={{
+                headerStyle: {
+                    backgroundColor: "#ffc477",
+                    borderBottomWidth: 1,
+                    borderBottomColor: 'black',
+                 },
             //     headerBackTitleVisible: false,
             //     headerTintColor:"black",
-                headerTitle:"",
+                headerTitleAlign: 'center',
+                headerTitle:"🐶 HOT DOG 🐩",
+                
+                headerTitleStyle: {
+                    fontWeight: '400',
+                    color: '#e74c3c',    
+                    fontSize: 20
+                }
             //     headerTransparent:true,
             }}
         >
@@ -35,10 +49,12 @@ export default function StackNavFactory({screenName}){
                     <Stack.Screen name={"Me"} component={Me} />
                 ) : null}
             <Stack.Screen name="Profile" component={Profile} />
+            <Stack.Screen name="Room" component={Room} />
             <Stack.Screen name="Photo" component={Photo} />
             <Stack.Screen name="Likes" component={Likes} />
             <Stack.Screen name="Comments" component={Comments} />
             <Stack.Screen name="SelectPhoto" component={SelectPhoto} />
+            <Stack.Screen name="Rooms" component={Rooms} />
         </Stack.Navigator>
     );
 }

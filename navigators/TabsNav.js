@@ -3,6 +3,8 @@ import { createBottomTabNavigator } from "@react-navigation/bottom-tabs";
 import { MaterialCommunityIcons } from "@expo/vector-icons";
 import TabIcons from "../components/auth/nav/TabIcon";
 import StackNavFactory from "../components/auth/nav/StackNavFactory";
+import { Ionicons } from '@expo/vector-icons';
+import { FontAwesome5 } from '@expo/vector-icons';
 
 
 
@@ -11,7 +13,11 @@ const Tabs = createBottomTabNavigator()
 export default function TabsNav(){
     return (
     <Tabs.Navigator
-            screenOptions={{headerShown:false}}
+            screenOptions={{headerShown:false,tabBarStyle: {
+                //backgroundColor: '#E49E49', // 밝은순서 FF9933(2) FF9966(1) FF9900(3) CC6633(4)
+                borderTopColor: 'black',
+                //borderBottomWidth: 1,
+            }}}
             tabBarOptions={{
             showLabel:false,
         }}
@@ -20,7 +26,7 @@ export default function TabsNav(){
             name="Feed" 
             options={{
                 tabBarIcon: ({ focused, color, size }) => (
-                    <TabIcons iconName={"home"} color={color} focused={focused} />
+                    <Ionicons name="home" size={24} color={color}/>
                 )
             }}
         >
@@ -31,7 +37,7 @@ export default function TabsNav(){
             options={{
                 tabBarStyle:{display:'none'},
                 tabBarIcon: ({ focused, color, size }) => (
-                    <TabIcons iconName={"chatbubble"} color={color} focused={focused} />
+                    <Ionicons name="chatbubble-outline" size={25} color={color}/>
                 )
             }}    
         >
@@ -41,7 +47,7 @@ export default function TabsNav(){
             name="Mathcing" 
             options={{
                 tabBarIcon: ({ focused, color, size }) => (
-                    <MaterialCommunityIcons name="dog" color={color} size={22} />
+                    <FontAwesome5 name="dog" size={24} color={color} />
                 )
             }} 
         >
@@ -51,7 +57,7 @@ export default function TabsNav(){
             name="Me" 
             options={{
                 tabBarIcon: ({ focused, color, size }) => (
-                    <TabIcons iconName={"person"} color={color} focused={focused} />
+                    <Ionicons name="md-person-circle-sharp" size={33} color={color} />
                 )
             }} 
         >

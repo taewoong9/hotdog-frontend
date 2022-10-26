@@ -1,11 +1,12 @@
 import React, { useEffect, useRef } from "react";
 import AuthLayout from "../components/auth/AuthLayout";
-import { TextInput } from "../components/auth/AuthShared";
+// import { TextInput } from "../components/auth/AuthShared";
 import styled from "styled-components/native";
 import { useForm, Controller } from "react-hook-form";
 import AuthButton from "../components/auth/AuthButton";
 import { gql, useMutation } from "@apollo/client";
 import { isLoggedInVar, logUserIn } from "../apollo";
+import { TextInput } from 'react-native-paper';
 
 const LOGIN_MUTATION = gql`
   mutation login($user_id: String!, $user_pw: String!) {
@@ -18,8 +19,8 @@ const LOGIN_MUTATION = gql`
 `;
 
 const Logo = styled.Image`
-margin-left:100px;
-max-width:50%;
+margin-left:50px;
+max-width:80%;
 `;
 
 export default function LogIn({ route: { params } }) {
@@ -64,8 +65,9 @@ export default function LogIn({ route: { params } }) {
   }, [register]);
   return (
     <AuthLayout>
-      <Logo resizeMode="contain" source={require("../assets/logo.png")} />
+      <Logo resizeMode="contain" source={require("../assets/hotdog.png")} />
       <TextInput
+        mode="outlined"
         value={watch("user_id")}
         placeholder="아이디"
         returnKeyType="next"
@@ -74,6 +76,7 @@ export default function LogIn({ route: { params } }) {
         onChangeText={(text) => setValue("user_id", text)}
       />
       <TextInput
+        mode="outlined"
         value={watch("user_pw")}
         ref={passwordRef}
         placeholder="패스워드"

@@ -4,6 +4,7 @@ import TabsNav from "./TabsNav";
 import MessageNav from "./MessagesNav"
 import UploadNav from "./UploadNav";
 
+
 const Stack = createStackNavigator();
 
 export default function LoggedInNav(){

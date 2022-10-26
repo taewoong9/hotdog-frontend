@@ -46,6 +46,7 @@ export const ROOM_FRAGMENT = gql`
     id
     unreadTotal
     userdb {
+      id
       user_name
     }
   }
